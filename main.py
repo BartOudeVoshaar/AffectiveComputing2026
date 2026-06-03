@@ -19,8 +19,8 @@ frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = int(cap.get(cv2.CAP_PROP_FPS)) or 25  # Fall back to 25 if webcam reports 0
 
 timestamp_str = datetime.now().strftime('%Y%m%d_%H%M%S')
-video_path = rf'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\recording_{timestamp_str}.avi'
-log_path = r'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\emotion_log.txt'
+video_path = rf'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\Recordings\Video\recording_{timestamp_str}.avi'
+log_path = rf'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\Recordings\Logs\emotion_log_{timestamp_str}.txt'
 
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 video_writer = cv2.VideoWriter(video_path, fourcc, fps, (frame_width, frame_height))
