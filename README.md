@@ -1,2 +1,3 @@
 # AffectiveComputing2026
 A project largely based on https://github.com/SHAIK-AFSANA/facialemotionrecognizerinrealtime by Shaik Afsana (2023). Facial emotion recognition for Affective Computing, 2026 on the University of Twente.
+Only changes include writing the perceived emotion to emotion_log.txt when the perceived emotion changes, or when confidence shifts with at least 0.15.
