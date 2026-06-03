@@ -13,7 +13,18 @@ emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surpri
 
 cap = cv2.VideoCapture(0)
 
+# Get frame dimensions from the webcam
+frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = int(cap.get(cv2.CAP_PROP_FPS)) or 25  # Fall back to 25 if webcam reports 0
+
+timestamp_str = datetime.now().strftime('%Y%m%d_%H%M%S')
+video_path = rf'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\recording_{timestamp_str}.avi'
 log_path = r'C:\Users\barto\PycharmProjects\facialemotionrecognizerinrealtime\emotion_log.txt'
+
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+video_writer = cv2.VideoWriter(video_path, fourcc, fps, (frame_width, frame_height))
+
 log_file = open(log_path, 'w')
 log_file.write(f"Emotion Detection Log - Started {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 log_file.write("-" * 50 + "\n")
@@ -56,11 +67,19 @@ try:
             else:
                 cv2.putText(frame, 'No Faces', (30, 80), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
+        ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        text_size = cv2.getTextSize(ts, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 1)[0]
+        text_x = frame_width - text_size[0] - 10
+        text_y = frame_height - 10
+        cv2.putText(frame, ts, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
+        video_writer.write(frame)  # Save the annotated frame to video
+
         cv2.imshow('Emotion Detector', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
 finally:
     log_file.close()
+    video_writer.release()
     cap.release()
     cv2.destroyAllWindows()
